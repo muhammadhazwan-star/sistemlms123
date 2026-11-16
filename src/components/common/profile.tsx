@@ -14,7 +14,7 @@ import { PageHeader, GlassCard } from '@/components/common/ui-bits'
 import { initials } from '@/lib/format'
 import { t } from '@/lib/i18n'
 import { User, Mail, Save, Building2, Briefcase, Globe, Palette } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const AVATAR_COLORS = ['#0d9488', '#0891b2', '#7c3aed', '#db2777', '#ea580c', '#16a34a', '#dc2626', '#4f46e5']
 
