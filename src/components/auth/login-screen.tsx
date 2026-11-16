@@ -22,12 +22,14 @@ export function LoginScreen() {
   const [password, setPassword] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
-  async function submit(e?: React.FormEvent) {
+  async function submit(e?: React.FormEvent, overrideEmail?: string, overridePassword?: string) {
     e?.preventDefault()
-    if (!email || !password) { toast.error('Sila isi e-mel dan kata laluan'); return }
+    const loginEmail = overrideEmail ?? email
+    const loginPassword = overridePassword ?? password
+    if (!loginEmail || !loginPassword) { toast.error('Sila isi e-mel dan kata laluan'); return }
     setLoading(true)
     try {
-      const { user } = await api.auth.login(email, password)
+      const { user } = await api.auth.login(loginEmail, loginPassword)
       setUser(user)
       toast.success(`Selamat datang, ${user.name}`)
     } catch (err: any) {
@@ -38,7 +40,7 @@ export function LoginScreen() {
   function quickLogin(acc: typeof DEMO_ACCOUNTS[number]) {
     setEmail(acc.email)
     setPassword('demo123')
-    setTimeout(() => submit(), 100)
+    submit(undefined, acc.email, 'demo123')
   }
 
   return (
