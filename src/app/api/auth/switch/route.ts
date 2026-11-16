@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { cookies } from 'next/headers'
 
+function isSecure(req: NextRequest): boolean {
+  const forwardedProto = req.headers.get('x-forwarded-proto')
+  if (forwardedProto === 'https') return true
+  return req.nextUrl.protocol === 'https:'
+}
+
 // Demo: switch role quickly (AUTH-03)
 export async function POST(req: NextRequest) {
   const { role } = await req.json()
@@ -13,7 +19,14 @@ export async function POST(req: NextRequest) {
   const target = await db.user.findFirst({ where: { role }, include: { department: true } })
   if (!target) return NextResponse.json({ error: 'Peranan tidak dijumpai' }, { status: 404 })
 
-  c.set('lms_session', target.id, { httpOnly: true, sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24 * 7 })
+  const secure = isSecure(req)
+  c.set('lms_session', target.id, {
+    httpOnly: true,
+    sameSite: secure ? 'none' : 'lax',
+    secure,
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7,
+  })
   return NextResponse.json({
     user: {
       id: target.id, staffNo: target.staffNo, name: target.name, email: target.email,
