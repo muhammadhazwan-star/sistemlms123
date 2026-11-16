@@ -42,14 +42,23 @@ Kata laluan untuk semua akaun demo: `demo123`
 
 ## Pemasangan Tempatan
 
+### Prasyarat
+
+- [Bun](https://bun.sh) runtime
+- Projek Supabase dengan pangkalan data PostgreSQL
+- Akses rangkaian ke Supabase (IPv6 untuk sambungan langsung, atau IPv4 via pooler)
+
+### Langkah Pemasangan
+
 ```bash
 # 1. Pasang dependencies
 bun install
 
 # 2. Salin fail persekitaran
 cp .env.example .env
+# Edit .env dengan connection string Supabase anda
 
-# 3. Push skema Prisma ke SQLite
+# 3. Push skema Prisma ke Supabase PostgreSQL
 bun run db:push
 
 # 4. Semai data dummy (40 pengguna, 9 kursus, 24 sesi, 600+ kehadiran)
@@ -61,13 +70,64 @@ bun run dev
 
 Buka `http://localhost:3000`.
 
+### Alternatif: Supabase CLI
+
+Jika anda lebih suka menggunakan Supabase CLI (melalui Management API HTTPS):
+
+```bash
+# Pasang Supabase CLI
+npm install -g supabase
+
+# Log masuk (dengan personal access token dari supabase.com/dashboard/account/tokens)
+supabase login
+
+# Pautkan projek
+supabase link --project-ref ciwtcblcmvcpxsfcjcnp
+
+# Push migration SQL
+supabase db push
+```
+
+Fail migration awal telah disediakan di `supabase/migrations/20261116000000_init/migration.sql`.
+
+## Konfigurasi Pangkalan Data (Supabase)
+
+Projek ini menggunakan **Supabase PostgreSQL** sebagai pangkalan data.
+
+### Sambungan Connection String
+
+Dua pilihan sambungan:
+
+| Jenis | Host | Port | Format Username |
+|-------|------|------|-----------------|
+| **Direct** (IPv6) | `db.{ref}.supabase.co` | 5432 | `postgres` |
+| **Pooler / Supavisor** (IPv4) | `aws-0-{region}.pooler.supabase.com` | 6543 | `postgres.{ref}` |
+
+**Disyorkan: Pooler (IPv4)** — berfungsi di lebih banyak persekitaran (Vercel, Netlify, sandbox).
+
+Untuk mendapatkan connection string pooler:
+1. Pergi ke **Supabase Dashboard → Database → Connection string**
+2. Pilih tab **Connection pooling** / **Supavisor**
+3. Salin URI (format: `postgresql://postgres.{ref}:{password}@aws-0-{region}.pooler.supabase.com:6543/postgres`)
+
+> **Penting:** Jika kata laluan mengandungi `@`, gantikan dengan `%40` dalam URL
+> (contoh: `Hazwanrais@12` → `Hazwanrais%4012`).
+
+### Butiran Projek Supabase (contoh)
+
+```
+Project URL:    https://ciwtcblcmvcpxsfcjcnp.supabase.co
+Project Ref:    ciwtcblcmvcpxsfcjcnp
+Region:         ap-southeast-1 (Singapore)
+```
+
 ## Skrip
 
 | Skrip | Penerangan |
 |-------|-----------|
 | `bun run dev` | Pelayan pembangunan (port 3000) |
 | `bun run lint` | ESLint |
-| `bun run db:push` | Sinkron skema Prisma ke SQLite |
+| `bun run db:push` | Sinkron skema Prisma ke PostgreSQL |
 | `bun run db:generate` | Jana Prisma Client |
 | `bun run prisma/seed/index.ts` | Semai data dummy |
 
