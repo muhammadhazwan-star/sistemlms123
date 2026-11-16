@@ -1,0 +1,370 @@
+// Prisma schema for LMS Al Amin (Latihan AI)
+// Dummy database (SQLite) - represents structure that can later migrate to PostgreSQL/Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------- Master Data -----------------------------
+
+model Department {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  headUserId String? @unique
+  createdAt DateTime @default(now())
+
+  users User[]
+  head  User?  @relation("DeptHead", fields: [headUserId], references: [id])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+
+  courses Course[]
+}
+
+// ----------------------------- Users & Auth -----------------------------
+
+enum Role {
+  ADMIN
+  HR
+  TRAINER
+  STAFF
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model User {
+  id            String     @id @default(cuid())
+  staffNo       String     @unique
+  name          String
+  email         String     @unique
+  passwordHash  String     // dummy - plain text for demo only
+  role          Role       @default(STAFF)
+  departmentId  String?
+  position      String?
+  language      String     @default("ms")
+  status        UserStatus @default(ACTIVE)
+  avatarColor   String     @default("#0d9488")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  department        Department?     @relation(fields: [departmentId], references: [id])
+  headedDepartment  Department?     @relation("DeptHead")
+  enrollments       Enrollment[]
+  lessonProgress    LessonProgress[]
+  quizAttempts      QuizAttempt[]
+  instructs         Course[]        @relation("CourseInstructor")
+  trainsSessions    Session[]       @relation("SessionTrainer")
+  attendances       Attendance[]
+  correctionsReq    AttendanceCorrection[] @relation("CorrectionRequester")
+  correctionsAppr   AttendanceCorrection[] @relation("CorrectionApprover")
+  certificates      Certificate[]
+  notifications     Notification[]
+  assignedEnroll    Enrollment[]    @relation("EnrollAssigner")
+  auditLogs         AuditLog[]
+  recordedAttendance Attendance[]   @relation("AttendanceRecorder")
+}
+
+// ----------------------------- Courses -----------------------------
+
+enum CourseLevel {
+  PEMULA
+  PERTENGAHAN
+  LANJUTAN
+  SEMUA
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LessonType {
+  TEXT
+  VIDEO
+  PDF
+  LAB
+}
+
+model Course {
+  id                String       @id @default(cuid())
+  code              String       @unique
+  title             String
+  description       String
+  categoryId        String?
+  level             CourseLevel  @default(PEMULA)
+  language          String       @default("ms")
+  durationHours     Int          @default(4)
+  instructorId      String?
+  status            CourseStatus @default(PUBLISHED)
+  passMark          Int          @default(70)
+  minAttendancePct  Int          @default(0)
+  thumbnail         String?
+  outcomes          String       // newline separated
+  syllabus          String       // newline separated
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  instructor  User?        @relation("CourseInstructor", fields: [instructorId], references: [id])
+  modules     Module[]
+  enrollments Enrollment[]
+  sessions    Session[]
+  quizzes     Quiz[]
+  certificates Certificate[]
+}
+
+model Module {
+  id        String   @id @default(cuid())
+  courseId  String
+  title     String
+  order     Int
+  createdAt DateTime @default(now())
+
+  course   Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
+}
+
+model Lesson {
+  id          String     @id @default(cuid())
+  moduleId    String
+  title       String
+  type        LessonType @default(TEXT)
+  content     String     // markdown for text; URL for video/pdf; prompt scenario JSON for lab
+  durationMin Int        @default(15)
+  order       Int
+  createdAt   DateTime   @default(now())
+
+  module       Module          @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  lessonProgress LessonProgress[]
+}
+
+model Quiz {
+  id            String   @id @default(cuid())
+  courseId      String
+  title         String
+  timeLimitMin  Int      @default(20)
+  maxAttempts   Int      @default(3)
+  passMark      Int      @default(70)
+  createdAt     DateTime @default(now())
+
+  course    Course        @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  questions Question[]
+  attempts  QuizAttempt[]
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  SHORT_ANSWER
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  quizId        String
+  type          QuestionType @default(MULTIPLE_CHOICE)
+  text          String
+  options       String       // JSON string array
+  correctAnswer String       // index for MC, "true"/"false" for TF, text for short
+  explanation   String?
+  points        Int          @default(1)
+  order         Int
+
+  quiz    Quiz          @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  attempts QuizAttempt[]
+}
+
+// ----------------------------- Enrollment & Progress -----------------------------
+
+enum EnrollmentStatus {
+  IN_PROGRESS
+  COMPLETED
+  NOT_STARTED
+}
+
+model Enrollment {
+  id           String           @id @default(cuid())
+  userId       String
+  courseId     String
+  assignedBy   String?
+  status       EnrollmentStatus @default(NOT_STARTED)
+  progressPct  Int              @default(0)
+  dueDate      DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  user       User    @relation(fields: [userId], references: [id])
+  course     Course  @relation(fields: [courseId], references: [id])
+  assigner   User?   @relation("EnrollAssigner", fields: [assignedBy], references: [id])
+}
+
+model LessonProgress {
+  id           String   @id @default(cuid())
+  userId       String
+  lessonId     String
+  completed    Boolean  @default(false)
+  lastPosition String?
+  updatedAt    DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+model QuizAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  quizId      String
+  score       Int      @default(0)
+  passed      Boolean  @default(false)
+  answers     String   // JSON {questionId: answer}
+  startedAt   DateTime @default(now())
+  submittedAt DateTime?
+
+  user     User      @relation(fields: [userId], references: [id])
+  quiz     Quiz      @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questions Question[]
+}
+
+// ----------------------------- Attendance -----------------------------
+
+enum SessionMode {
+  BERSEMUKA
+  DALAM_TALIAN
+}
+
+model Session {
+  id           String      @id @default(cuid())
+  courseId     String?
+  title        String
+  date         DateTime
+  startTime    String
+  endTime      String
+  mode         SessionMode @default(BERSEMUKA)
+  location     String?
+  url          String?
+  capacity     Int         @default(40)
+  qrToken      String      @unique
+  code6        String
+  codeExpiry   DateTime
+  lateAfterMin Int         @default(15)
+  trainerId    String?
+  createdAt    DateTime    @default(now())
+
+  course      Course?       @relation(fields: [courseId], references: [id])
+  trainer     User?         @relation("SessionTrainer", fields: [trainerId], references: [id])
+  attendances Attendance[]
+}
+
+enum AttendanceStatus {
+  HADIR
+  LEWAT
+  TIDAK_HADIR
+  CUTI
+  DIKECUALIKAN
+}
+
+enum AttendanceMethod {
+  QR
+  CODE
+  MANUAL
+  IMPORT
+  AUTO
+}
+
+model Attendance {
+  id          String            @id @default(cuid())
+  sessionId   String
+  userId      String
+  status      AttendanceStatus  @default(TIDAK_HADIR)
+  checkInAt   DateTime?
+  checkOutAt  DateTime?
+  method      AttendanceMethod  @default(MANUAL)
+  recordedById String?
+  remarks     String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  session     Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
+  recorder    User?    @relation("AttendanceRecorder", fields: [recordedById], references: [id])
+  corrections AttendanceCorrection[]
+}
+
+enum CorrectionState {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model AttendanceCorrection {
+  id            String         @id @default(cuid())
+  attendanceId  String
+  requestedById String
+  oldStatus     AttendanceStatus
+  newStatus     AttendanceStatus
+  reason        String
+  approvedById  String?
+  state         CorrectionState @default(PENDING)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  attendance Attendance @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  requester  User       @relation("CorrectionRequester", fields: [requestedById], references: [id])
+  approver   User?      @relation("CorrectionApprover", fields: [approvedById], references: [id])
+}
+
+// ----------------------------- Certificates -----------------------------
+
+model Certificate {
+  id          String    @id @default(cuid())
+  userId      String
+  courseId    String
+  certNo      String    @unique
+  issuedAt    DateTime  @default(now())
+  expiresAt   DateTime?
+  verifyCode  String    @unique
+
+  user   User   @relation(fields: [userId], references: [id])
+  course  Course @relation(fields: [courseId], references: [id])
+}
+
+// ----------------------------- Notifications & Audit -----------------------------
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  before    String?
+  after     String?
+  timestamp DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}

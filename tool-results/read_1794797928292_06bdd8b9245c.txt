@@ -1,0 +1,1015 @@
+     1→DOKUMEN KEPERLUAN PRODUK (PRD)
+     2→
+     3→Sistem Pengurusan Pembelajaran (LMS)
+     4→
+     5→Latihan & Kursus Kecerdasan Buatan (AI) untuk Kakitangan
+     6→
+     7→Projek: LMS Al Amin | Lokasi: Malaysia
+     8→
+     9→  -----------------------------------------------------------------------
+    10→  Perkara             Butiran
+    11→  ------------------- ---------------------------------------------------
+    12→  Versi               1.0 (Draf Untuk Semakan)
+    13→
+    14→  Tarikh              16 November 2026
+    15→
+    16→  Disediakan oleh     Jurutera Perisian Kanan (Pakar Rujukan)
+    17→
+    18→  Teknologi utama     React, pangkalan data dummy (tanpa pelayan sebenar)
+    19→
+    20→  Alat pembangunan    z.ai menggunakan model GLM 5.2
+    21→
+    22→  Bahasa dokumen      Bahasa Malaysia
+    23→
+    24→  Status              Menunggu kelulusan pemilik produk
+    25→  -----------------------------------------------------------------------
+    26→
+    27→Kandungan
+    28→
+    29→1. Ringkasan Eksekutif
+    30→
+    31→2. Latar Belakang dan Pernyataan Masalah
+    32→
+    33→3. Objektif dan Petunjuk Prestasi Utama (KPI)
+    34→
+    35→4. Skop Projek
+    36→
+    37→5. Pengguna dan Peranan
+    38→
+    39→6. Keperluan Fungsian
+    40→
+    41→7. Kandungan Latihan AI (Kurikulum Cadangan)
+    42→
+    43→8. Keperluan Bukan Fungsian
+    44→
+    45→9. Seni Bina dan Teknologi
+    46→
+    47→10. Model Data dan Pangkalan Data Dummy
+    48→
+    49→11. Reka Bentuk UI/UX dan Senarai Skrin
+    50→
+    51→12. Aliran Pengguna Utama
+    52→
+    53→13. Keselamatan dan Pematuhan (PDPA 2010)
+    54→
+    55→14. Strategi Pembangunan dengan z.ai (GLM 5.2)
+    56→
+    57→15. Fasa, Garis Masa dan Hasil Serahan
+    58→
+    59→16. Risiko dan Mitigasi
+    60→
+    61→17. Kriteria Penerimaan
+    62→
+    63→18. Lampiran: Templat Prompt
+    64→
+    65→1. Ringkasan Eksekutif
+    66→
+    67→Dokumen ini menggariskan keperluan untuk membangunkan Sistem Pengurusan
+    68→Pembelajaran (LMS) berasaskan web bagi Al Amin di Malaysia. LMS ini
+    69→menyediakan kursus dan bahan latihan Kecerdasan Buatan (AI) untuk
+    70→kakitangan, serta modul kehadiran digital yang menggantikan kerja menaip
+    71→data kehadiran secara manual.
+    72→
+    73→Sistem dibina menggunakan React sebagai antara muka pengguna. Pada fasa
+    74→prototaip, semua data disimpan dalam pangkalan data dummy (data contoh)
+    75→supaya sistem boleh didemonstrasi sepenuhnya tanpa pelayan dan kos
+    76→infrastruktur. Struktur data direka supaya boleh disambung kepada
+    77→pangkalan data sebenar pada fasa seterusnya tanpa menulis semula antara
+    78→muka.
+    79→
+    80→Pembangunan dilakukan melalui z.ai menggunakan model GLM 5.2, dipandu
+    81→oleh PRD ini sebagai sumber rujukan tunggal.
+    82→
+    83→2. Latar Belakang dan Pernyataan Masalah
+    84→
+    85→2.1 Latar belakang
+    86→
+    87→Penggunaan AI dalam kerja harian (penulisan, analisis data, pengurusan
+    88→dokumen, khidmat pelanggan) kian meluas. Kakitangan memerlukan latihan
+    89→berstruktur yang selamat, relevan dengan konteks Malaysia, dan mudah
+    90→diikuti mengikut tahap kemahiran masing-masing.
+    91→
+    92→2.2 Pernyataan masalah
+    93→
+    94→-   Kemasukan kehadiran secara manual: Pentadbir terpaksa menaip data
+    95→    kehadiran kakitangan satu per satu selepas setiap sesi latihan. Ini
+    96→    memakan masa, mudah silap, dan sukar diaudit.
+    97→
+    98→-   Bahan latihan bertaburan: Slaid, video dan nota disimpan di pelbagai
+    99→    tempat tanpa satu platform pusat.
+   100→
+   101→-   Tiada penjejakan kemajuan: Pihak pengurusan tidak dapat melihat
+   102→    siapa telah menamatkan latihan, skor, dan jurang kemahiran.
+   103→
+   104→-   Pensijilan tidak konsisten: Sijil tamat latihan dikeluarkan secara
+   105→    manual dan sukar disahkan.
+   106→
+   107→2.3 Peluang
+   108→
+   109→Satu platform tunggal yang menggabungkan kandungan AI, kuiz, kehadiran
+   110→automatik (imbasan QR, kod sesi, import CSV) dan laporan akan
+   111→menjimatkan masa pentadbiran dan meningkatkan kualiti latihan.
+   112→
+   113→3. Objektif dan Petunjuk Prestasi Utama (KPI)
+   114→
+   115→  -----------------------------------------------------------------------
+   116→  Objektif                KPI                           Sasaran
+   117→  ----------------------- ----------------------------- -----------------
+   118→  Menghapuskan kemasukan  Peratus kehadiran direkod     90% atau lebih
+   119→  kehadiran manual        secara automatik              
+   120→                          (QR/kod/import)               
+   121→
+   122→  Mengurangkan masa       Masa menyediakan laporan      Kurang daripada 1
+   123→  pentadbiran             kehadiran sesi                minit (berbanding
+   124→                                                        kaedah manual)
+   125→
+   126→  Meningkatkan literasi   Peratus kakitangan menamatkan 80% dalam 6 bulan
+   127→  AI                      sekurang-kurangnya 1 kursus   
+   128→                          asas                          
+   129→
+   130→  Penglibatan pelajar     Kadar penyiapan kursus        70% atau lebih
+   131→
+   132→  Kepuasan pengguna       Skor kepuasan (skala 1-5)     4.0 atau lebih
+   133→
+   134→  Prestasi sistem         Masa muat halaman utama       Kurang daripada 2
+   135→                                                        saat
+   136→  -----------------------------------------------------------------------
+   137→
+   138→4. Skop Projek
+   139→
+   140→4.1 Dalam skop (Fasa Prototaip)
+   141→
+   142→-   Antara muka React yang responsif (desktop, tablet, telefon)
+   143→
+   144→-   Log masuk dan kawalan akses berasaskan peranan (data dummy)
+   145→
+   146→-   Katalog kursus, pendaftaran kursus, pemain pelajaran, kuiz dan
+   147→    penjejakan kemajuan
+   148→
+   149→-   Kandungan kurikulum AI contoh dalam Bahasa Malaysia dan Bahasa
+   150→    Inggeris
+   151→
+   152→-   Modul kehadiran: sesi latihan, imbasan QR, kod sesi, kehadiran
+   153→    manual pukal, import/eksport CSV
+   154→
+   155→-   Penjanaan sijil digital (PDF) dengan nombor pengesahan
+   156→
+   157→-   Papan pemuka dan laporan untuk Admin, HR/Pengurus dan Jurulatih
+   158→
+   159→-   Pangkalan data dummy dengan data contoh yang realistik
+   160→
+   161→4.2 Luar skop (fasa kemudian)
+   162→
+   163→-   Pangkalan data pelayan sebenar dan API backend produksi
+   164→
+   165→-   Integrasi SSO korporat (Microsoft Entra ID / Google Workspace)
+   166→
+   167→-   Integrasi sistem HRMS dan payroll
+   168→
+   169→-   Aplikasi mudah alih natif
+   170→
+   171→-   Penstriman video langsung (gunakan pautan Zoom/Teams sebagai
+   172→    alternatif)
+   173→
+   174→-   Pembayaran dan invois
+   175→
+   176→5. Pengguna dan Peranan
+   177→
+   178→  -----------------------------------------------------------------------
+   179→  Peranan      Penerangan          Keupayaan utama
+   180→  ------------ ------------------- --------------------------------------
+   181→  Admin        Pentadbir sistem    Urus pengguna, kursus, kategori,
+   182→               LMS                 tetapan, data dummy (reset/seed),
+   183→                                   audit log
+   184→
+   185→  HR /         Penyelia            Lihat laporan pasukan, tugaskan kursus
+   186→  Pengurus     pembangunan staf    wajib, lulus kehadiran, eksport
+   187→                                   laporan
+   188→
+   189→  Jurulatih    Pengajar /          Cipta dan edit kursus, jadualkan sesi,
+   190→               fasilitator         jana QR kehadiran, nilai kuiz
+   191→
+   192→  Staf         Kakitangan yang     Daftar kursus, belajar, ambil kuiz,
+   193→  (Pelajar)    belajar             daftar kehadiran sendiri, muat turun
+   194→                                   sijil
+   195→  -----------------------------------------------------------------------
+   196→
+   197→6. Keperluan Fungsian
+   198→
+   199→Keutamaan menggunakan kaedah MoSCoW: M = Mesti ada, S = Sepatutnya ada,
+   200→C = Boleh ada.
+   201→
+   202→6.1 Pengesahan dan Akses (AUTH)
+   203→
+   204→  ----------------------------------------------------------------------------
+   205→  ID        Keperluan                                              Keutamaan
+   206→  --------- ------------------------------------------------------ -----------
+   207→  AUTH-01   Pengguna boleh log masuk dengan e-mel dan kata laluan  M
+   208→            (disahkan terhadap data dummy).                        
+   209→
+   210→  AUTH-02   Kawalan akses berasaskan peranan (RBAC); menu dan      M
+   211→            laluan dihadkan mengikut peranan.                      
+   212→
+   213→  AUTH-03   Fungsi 'Log masuk sebagai' (demo) untuk bertukar       S
+   214→            peranan pantas semasa persembahan.                     
+   215→
+   216→  AUTH-04   Profil pengguna: nama, jabatan, jawatan, gambar,       S
+   217→            pilihan bahasa (BM/EN).                                
+   218→
+   219→  AUTH-05   Lupa kata laluan (simulasi aliran sahaja pada fasa     C
+   220→            prototaip).                                            
+   221→  ----------------------------------------------------------------------------
+   222→
+   223→6.2 Papan Pemuka (DASH)
+   224→
+   225→  ----------------------------------------------------------------------------
+   226→  ID        Keperluan                                              Keutamaan
+   227→  --------- ------------------------------------------------------ -----------
+   228→  DASH-01   Papan pemuka staf: kursus sedang berjalan, kemajuan,   M
+   229→            sesi akan datang, sijil diperoleh.                     
+   230→
+   231→  DASH-02   Papan pemuka jurulatih: kursus saya, bilangan pelajar, M
+   232→            sesi hari ini, kuiz menunggu semakan.                  
+   233→
+   234→  DASH-03   Papan pemuka HR/Admin: statistik penyiapan, kadar      M
+   235→            kehadiran, kursus popular, graf trend.                 
+   236→
+   237→  DASH-04   Mod gelap dan mod cerah.                               C
+   238→  ----------------------------------------------------------------------------
+   239→
+   240→6.3 Katalog dan Pengurusan Kursus (CRS)
+   241→
+   242→  ---------------------------------------------------------------------------
+   243→  ID       Keperluan                                              Keutamaan
+   244→  -------- ------------------------------------------------------ -----------
+   245→  CRS-01   Katalog kursus dengan carian, penapis (kategori,       M
+   246→           tahap, bahasa, tempoh) dan isihan.                     
+   247→
+   248→  CRS-02   Halaman butiran kursus: sinopsis, hasil pembelajaran,  M
+   249→           sukatan, jurulatih, tempoh.                            
+   250→
+   251→  CRS-03   Pendaftaran kendiri dan penugasan kursus wajib oleh    M
+   252→           HR/Pengurus.                                           
+   253→
+   254→  CRS-04   Jurulatih boleh cipta/edit/arkib kursus, modul dan     M
+   255→           pelajaran.                                             
+   256→
+   257→  CRS-05   Jenis kandungan pelajaran: teks/Markdown, video        M
+   258→           (pautan), PDF, slaid, makmal interaktif.               
+   259→
+   260→  CRS-06   Prasyarat kursus dan laluan pembelajaran (learning     S
+   261→           path) mengikut peranan kerja.                          
+   262→
+   263→  CRS-07   Status kursus: draf, diterbitkan, diarkibkan.          M
+   264→
+   265→  CRS-08   Penilaian dan maklum balas kursus (bintang dan komen). S
+   266→  ---------------------------------------------------------------------------
+   267→
+   268→6.4 Pemain Pembelajaran dan Kuiz (LRN)
+   269→
+   270→  ---------------------------------------------------------------------------
+   271→  ID       Keperluan                                              Keutamaan
+   272→  -------- ------------------------------------------------------ -----------
+   273→  LRN-01   Pemain pelajaran dengan navigasi modul, penanda siap,  M
+   274→           dan sambung semula dari tempat terakhir.               
+   275→
+   276→  LRN-02   Penjejakan kemajuan automatik (peratus setiap kursus). M
+   277→
+   278→  LRN-03   Kuiz: aneka pilihan, benar/salah, jawapan pendek; had  M
+   279→           masa; had cubaan.                                      
+   280→
+   281→  LRN-04   Markah lulus boleh ditetapkan (lalai 70%); maklum      M
+   282→           balas jawapan selepas kuiz.                            
+   283→
+   284→  LRN-05   Nota peribadi dan penanda buku pada pelajaran.         C
+   285→
+   286→  LRN-06   Makmal AI interaktif: ruang cuba prompt dengan jawapan S
+   287→           simulasi (tiada panggilan API sebenar pada fasa        
+   288→           dummy).                                                
+   289→  ---------------------------------------------------------------------------
+   290→
+   291→6.5 Modul Kehadiran (ATT) - Penyelesaian Kepada Kemasukan Manual
+   292→
+   293→Modul ini menjadi keutamaan utama kerana ia menyelesaikan masalah asal:
+   294→menaip data kehadiran staf secara manual.
+   295→
+   296→  ---------------------------------------------------------------------------
+   297→  ID       Keperluan                                              Keutamaan
+   298→  -------- ------------------------------------------------------ -----------
+   299→  ATT-01   Jurulatih/Admin mencipta sesi latihan (tarikh, masa,   M
+   300→           lokasi/pautan, kapasiti, kursus berkaitan).            
+   301→
+   302→  ATT-02   Penjanaan kod QR dinamik untuk setiap sesi; staf       M
+   303→           mengimbas untuk daftar masuk (check-in) dan keluar     
+   304→           (check-out).                                           
+   305→
+   306→  ATT-03   Alternatif kod sesi 6 digit yang sah untuk tempoh      M
+   307→           terhad (contoh: 15 minit) bagi pengguna tanpa kamera.  
+   308→
+   309→  ATT-04   Kehadiran automatik untuk kursus dalam talian          S
+   310→           berdasarkan log masuk dan penyiapan pelajaran.         
+   311→
+   312→  ATT-05   Kemasukan manual pukal: pilih sesi, tandakan senarai   M
+   313→           staf (Hadir / Lewat / Tidak Hadir / Cuti /             
+   314→           Dikecualikan) dalam satu skrin, dengan butang          
+   315→           'Tandakan semua hadir'.                                
+   316→
+   317→  ATT-06   Import kehadiran dari fail CSV/Excel dengan pratonton, M
+   318→           pengesahan ralat dan pemadanan nombor staf.            
+   319→
+   320→  ATT-07   Eksport kehadiran ke CSV dan PDF mengikut sesi, staf,  M
+   321→           jabatan atau tempoh.                                   
+   322→
+   323→  ATT-08   Peraturan lewat (contoh: lebih 15 minit dari mula) dan S
+   324→           jumlah jam latihan dikira automatik.                   
+   325→
+   326→  ATT-09   Aliran kelulusan: pembetulan kehadiran oleh pengguna   S
+   327→           memerlukan kelulusan HR/Pengurus, dengan sebab         
+   328→           dicatat.                                               
+   329→
+   330→  ATT-10   Jejak audit setiap perubahan kehadiran (siapa, bila,   M
+   331→           nilai lama dan baharu).                                
+   332→
+   333→  ATT-11   Ringkasan kadar kehadiran per staf, jabatan dan        S
+   334→           kursus; pemberitahuan jika di bawah ambang (lalai      
+   335→           80%).                                                  
+   336→
+   337→  ATT-12   Syarat sijil: kehadiran minimum boleh ditetapkan bagi  S
+   338→           kursus bersemuka.                                      
+   339→  ---------------------------------------------------------------------------
+   340→
+   341→6.6 Pensijilan (CERT)
+   342→
+   343→  ----------------------------------------------------------------------------
+   344→  ID        Keperluan                                              Keutamaan
+   345→  --------- ------------------------------------------------------ -----------
+   346→  CERT-01   Sijil PDF dijana automatik apabila kursus selesai,     M
+   347→            kuiz lulus dan syarat kehadiran dipenuhi.              
+   348→
+   349→  CERT-02   Setiap sijil mempunyai nombor unik dan kod QR; halaman S
+   350→            pengesahan awam menyemak kesahihan.                    
+   351→
+   352→  CERT-03   Templat sijil dwibahasa (BM/EN) dengan logo            S
+   353→            organisasi.                                            
+   354→
+   355→  CERT-04   Tarikh luput sijil dan peringatan pembaharuan.         C
+   356→  ----------------------------------------------------------------------------
+   357→
+   358→6.7 Laporan dan Analitik (RPT)
+   359→
+   360→  ---------------------------------------------------------------------------
+   361→  ID       Keperluan                                              Keutamaan
+   362→  -------- ------------------------------------------------------ -----------
+   363→  RPT-01   Laporan penyiapan kursus mengikut staf, jabatan dan    M
+   364→           tempoh.                                                
+   365→
+   366→  RPT-02   Laporan kehadiran (rujuk ATT-07, ATT-11).              M
+   367→
+   368→  RPT-03   Laporan keputusan kuiz dan soalan paling sukar.        S
+   369→
+   370→  RPT-04   Laporan jurang kemahiran AI mengikut jabatan.          C
+   371→
+   372→  RPT-05   Eksport laporan ke CSV dan PDF.                        M
+   373→  ---------------------------------------------------------------------------
+   374→
+   375→6.8 Notifikasi dan Pentadbiran (ADM)
+   376→
+   377→  ---------------------------------------------------------------------------
+   378→  ID       Keperluan                                              Keutamaan
+   379→  -------- ------------------------------------------------------ -----------
+   380→  ADM-01   Pengurusan pengguna: tambah, edit, nyahaktif, import   M
+   381→           CSV.                                                   
+   382→
+   383→  ADM-02   Pengurusan kategori, jabatan dan tetapan sistem.       M
+   384→
+   385→  ADM-03   Notifikasi dalam aplikasi: kursus ditugaskan, sesi     S
+   386→           akan datang, tarikh akhir, sijil siap.                 
+   387→
+   388→  ADM-04   Butang 'Reset data dummy' dan 'Jana semula data        M
+   389→           contoh' untuk tujuan demo.                             
+   390→
+   391→  ADM-05   Log audit aktiviti penting.                            S
+   392→  ---------------------------------------------------------------------------
+   393→
+   394→7. Kandungan Latihan AI (Kurikulum Cadangan)
+   395→
+   396→Kandungan dummy mesti realistik supaya sistem boleh didemonstrasi kepada
+   397→pihak berkepentingan. Setiap kursus mengandungi sekurang-kurangnya 3
+   398→modul, 2 hingga 4 pelajaran setiap modul, dan 1 kuiz.
+   399→
+   400→  ---------------------------------------------------------------------------------
+   401→  Kod      Kursus           Tahap         Tempoh   Topik utama
+   402→  -------- ---------------- ------------- -------- --------------------------------
+   403→  AI-101   Asas Kecerdasan  Pemula        4 jam    Apa itu AI, ML, AI generatif;
+   404→           Buatan                                  sejarah ringkas; mitos dan
+   405→                                                   realiti; contoh kegunaan di
+   406→                                                   Malaysia
+   407→
+   408→  AI-102   Kejuruteraan     Pemula        5 jam    Struktur prompt, peranan,
+   409→           Prompt (Prompt                          konteks, format output, teknik
+   410→           Engineering)                            langkah demi langkah, contoh
+   411→                                                   dalam BM
+   412→
+   413→  AI-103   AI Generatif     Pemula        4 jam    Menulis e-mel, ringkasan
+   414→           untuk Kerja                             mesyuarat, terjemahan,
+   415→           Harian                                  penyelidikan, penjanaan idea
+   416→
+   417→  AI-201   Analisis Data    Pertengahan   6 jam    Pembersihan data, formula Excel
+   418→           dengan Bantuan                          dibantu AI, visualisasi,
+   419→           AI                                      tafsiran keputusan
+   420→
+   421→  AI-202   Automasi Kerja   Pertengahan   6 jam    Mengenal pasti tugas berulang,
+   422→           dan Aliran Kerja                        alat tanpa kod, ejen AI,
+   423→           AI                                      pengukuran penjimatan masa
+   424→
+   425→  AI-203   AI untuk Khidmat Pertengahan   4 jam    Chatbot, templat balasan,
+   426→           Pelanggan                               analisis sentimen, kawalan
+   427→                                                   kualiti
+   428→
+   429→  AI-301   Etika, Privasi   Semua tahap   3 jam    PDPA 2010, kerahsiaan data,
+   430→           dan Tadbir Urus                         bias, halusinasi, dasar
+   431→           AI                                      penggunaan AI organisasi
+   432→
+   433→  AI-302   Keselamatan      Semua tahap   3 jam    Kebocoran data, prompt
+   434→           Penggunaan AI                           injection, phishing dibantu AI,
+   435→                                                   amalan terbaik
+   436→
+   437→  AI-401   Membina Aplikasi Lanjutan      8 jam    API model bahasa, RAG asas,
+   438→           AI (Pengenalan                          penilaian output, kos dan
+   439→           untuk Pembangun)                        prestasi
+   440→  ---------------------------------------------------------------------------------
+   441→
+   442→7.1 Laluan pembelajaran cadangan
+   443→
+   444→-   Semua staf: AI-101, AI-102, AI-301 (wajib), kemudian AI-103 dan
+   445→    AI-302.
+   446→
+   447→-   Pentadbiran/Kewangan: tambah AI-201 dan AI-202.
+   448→
+   449→-   Khidmat pelanggan: tambah AI-203.
+   450→
+   451→-   IT/Pembangun: tambah AI-401.
+   452→
+   453→8. Keperluan Bukan Fungsian
+   454→
+   455→  ----------------------------------------------------------------------------
+   456→  Kategori              Keperluan
+   457→  --------------------- ------------------------------------------------------
+   458→  Prestasi              Halaman utama dimuat kurang 2 saat pada sambungan 4G;
+   459→                        pembahagian kod (code splitting) dan lazy loading
+   460→                        untuk laluan; senarai panjang menggunakan penomboran
+   461→                        atau virtualisasi.
+   462→
+   463→  Responsif             Sokongan lebar skrin 360px hingga 1920px; mesra
+   464→                        sentuhan.
+   465→
+   466→  Kebolehcapaian        Mematuhi WCAG 2.1 tahap AA: kontras warna, navigasi
+   467→                        papan kekunci, label ARIA, teks alternatif.
+   468→
+   469→  Bahasa                Antara muka lalai Bahasa Malaysia; sokong Bahasa
+   470→                        Inggeris melalui fail terjemahan (i18n). Format tarikh
+   471→                        DD/MM/YYYY, zon waktu Asia/Kuala_Lumpur (UTC+8).
+   472→
+   473→  Keserasian pelayar    Chrome, Edge, Safari, Firefox versi terkini (2 versi
+   474→                        terakhir).
+   475→
+   476→  Kebolehselenggaraan   TypeScript, ESLint, Prettier, struktur folder
+   477→                        berasaskan fitur, liputan ujian unit 70% untuk logik
+   478→                        utama.
+   479→
+   480→  Kebolehkembangan      Lapisan akses data diabstrak (repository/service)
+   481→                        supaya dummy DB boleh digantikan dengan API sebenar
+   482→                        tanpa mengubah komponen UI.
+   483→
+   484→  Kebolehpercayaan      Aplikasi berfungsi luar talian untuk data dummy; ralat
+   485→                        ditangkap dengan Error Boundary dan mesej mesra
+   486→                        pengguna.
+   487→
+   488→  Persekitaran          Binaan statik boleh dihoskan di Vercel, Netlify atau
+   489→                        pelayan dalaman organisasi.
+   490→  ----------------------------------------------------------------------------
+   491→
+   492→9. Seni Bina dan Teknologi
+   493→
+   494→9.1 Tindanan teknologi
+   495→
+   496→  ------------------------------------------------------------------------
+   497→  Lapisan          Pilihan                    Sebab
+   498→  ---------------- -------------------------- ----------------------------
+   499→  Rangka kerja UI  React 18 atau lebih baharu Syarat projek; ekosistem
+   500→                   dengan TypeScript          besar dan sesuai dengan
+   501→                                              penjanaan kod AI
+   502→
+   503→  Alat binaan      Vite                       Permulaan pantas dan binaan
+   504→                                              ringan
+   505→
+   506→  Penghalaan       React Router               Laluan berasaskan peranan
+   507→                                              dan laluan terlindung
+   508→
+   509→  Pengurusan       Zustand (sesi, UI) dan     Ringkas, mudah beralih
+   510→  keadaan          TanStack Query (data       kepada API sebenar kelak
+   511→                   pelayan/dummy)             
+   512→
+   513→  Gaya UI          Tailwind CSS dan komponen  Pembangunan pantas,
+   514→                   shadcn/ui                  konsisten dan boleh capai
+   515→
+   516→  Borang dan       React Hook Form dan Zod    Validasi data kehadiran dan
+   517→  validasi                                    import
+   518→
+   519→  Carta            Recharts                   Graf papan pemuka
+   520→
+   521→  Kod QR           qrcode.react (jana) dan    Kehadiran QR
+   522→                   html5-qrcode (imbas)       
+   523→
+   524→  Sijil PDF        jsPDF atau                 Jana sijil di pelayar
+   525→                   @react-pdf/renderer        
+   526→
+   527→  CSV/Excel        PapaParse dan SheetJS      Import/eksport kehadiran
+   528→
+   529→  i18n             react-i18next              BM dan EN
+   530→
+   531→  Pangkalan data   MSW (Mock Service          Meniru API REST sebenar;
+   532→  dummy            Worker) + IndexedDB        data kekal selepas muat
+   533→                   (Dexie.js), dibenihkan     semula halaman
+   534→                   dari fail JSON             
+   535→
+   536→  Ujian            Vitest, React Testing      Jaminan kualiti
+   537→                   Library, Playwright (ujian 
+   538→                   hujung ke hujung)          
+   539→  ------------------------------------------------------------------------
+   540→
+   541→9.2 Strategi pangkalan data dummy
+   542→
+   543→-   Fail benih (seed) JSON dalam folder /src/mocks/data menyimpan
+   544→    pengguna, kursus, sesi dan lain-lain.
+   545→
+   546→-   MSW memintas permintaan HTTP (contoh: GET /api/courses) dan membalas
+   547→    daripada IndexedDB; komponen UI menggunakan fetch biasa seolah-olah
+   548→    API sebenar wujud.
+   549→
+   550→-   Pada fasa produksi, MSW dimatikan dan URL API diarahkan ke backend
+   551→    sebenar (cadangan: Node.js + PostgreSQL atau Supabase) tanpa
+   552→    perubahan pada komponen.
+   553→
+   554→-   Butang 'Reset data dummy' mengosongkan IndexedDB dan menyemai semula
+   555→    dari fail benih.
+   556→
+   557→-   Semua kata laluan dummy hanyalah untuk demo dan tidak boleh
+   558→    digunakan semula di sistem sebenar.
+   559→
+   560→9.3 Struktur folder (cadangan)
+   561→
+   562→-   src/app (penghalaan, penyedia, tema)
+   563→
+   564→-   src/features/auth | courses | learning | attendance | certificates |
+   565→    reports | admin
+   566→
+   567→-   src/components (komponen UI dikongsi)
+   568→
+   569→-   src/services (lapisan akses data / API client)
+   570→
+   571→-   src/mocks (handler MSW, skema Dexie, data benih)
+   572→
+   573→-   src/i18n (ms.json, en.json)
+   574→
+   575→-   src/lib (utiliti: tarikh, CSV, QR, PDF)
+   576→
+   577→-   tests (unit dan e2e)
+   578→
+   579→10. Model Data dan Pangkalan Data Dummy
+   580→
+   581→10.1 Entiti utama
+   582→
+   583→  ------------------------------------------------------------------------------
+   584→  Entiti                  Medan utama
+   585→  ----------------------- ------------------------------------------------------
+   586→  users                   id, staffNo, name, email, passwordHash (dummy), role,
+   587→                          departmentId, position, language, status, createdAt
+   588→
+   589→  departments             id, name, headUserId
+   590→
+   591→  categories              id, name, description
+   592→
+   593→  courses                 id, code, title, description, categoryId, level,
+   594→                          language, durationHours, instructorId, status,
+   595→                          passMark, minAttendancePct, thumbnail
+   596→
+   597→  modules                 id, courseId, title, order
+   598→
+   599→  lessons                 id, moduleId, title, type (text/video/pdf/lab),
+   600→                          content/url, durationMin, order
+   601→
+   602→  quizzes                 id, courseId, title, timeLimitMin, maxAttempts,
+   603→                          passMark
+   604→
+   605→  questions               id, quizId, type, text, options[], correctAnswer,
+   606→                          explanation, points
+   607→
+   608→  enrollments             id, userId, courseId, assignedBy, status, progressPct,
+   609→                          dueDate, completedAt
+   610→
+   611→  lessonProgress          id, userId, lessonId, completed, lastPosition,
+   612→                          updatedAt
+   613→
+   614→  quizAttempts            id, userId, quizId, score, passed, answers[],
+   615→                          startedAt, submittedAt
+   616→
+   617→  sessions                id, courseId, title, date, startTime, endTime, mode
+   618→                          (bersemuka/dalam talian), location/url, capacity,
+   619→                          qrToken, codeExpiry, lateAfterMin, trainerId
+   620→
+   621→  attendance              id, sessionId, userId, status (hadir/lewat/tidak
+   622→                          hadir/cuti/dikecualikan), checkInAt, checkOutAt,
+   623→                          method (QR/kod/manual/import/auto), recordedBy,
+   624→                          remarks
+   625→
+   626→  attendanceCorrections   id, attendanceId, requestedBy, oldStatus, newStatus,
+   627→                          reason, approvedBy, state
+   628→
+   629→  certificates            id, userId, courseId, certNo, issuedAt, expiresAt,
+   630→                          verifyCode
+   631→
+   632→  notifications           id, userId, type, message, read, createdAt
+   633→
+   634→  auditLogs               id, userId, action, entity, entityId, before, after,
+   635→                          timestamp
+   636→  ------------------------------------------------------------------------------
+   637→
+   638→10.2 Volum data contoh minimum
+   639→
+   640→  -----------------------------------------------------------------------
+   641→  Data              Jumlah            Catatan
+   642→  ----------------- ----------------- -----------------------------------
+   643→  Pengguna          40                1 Admin, 2 HR/Pengurus, 4
+   644→                                      Jurulatih, 33 Staf; nama Malaysia
+   645→                                      pelbagai kaum; 6 jabatan
+   646→
+   647→  Kursus            9                 Mengikut jadual di bahagian 7;
+   648→                                      campuran diterbitkan dan draf
+   649→
+   650→  Modul dan         Lebih 80          Kandungan ringkas tetapi realistik
+   651→  pelajaran         pelajaran         
+   652→
+   653→  Kuiz dan soalan   9 kuiz, kira-kira Pelbagai jenis soalan
+   654→                    90 soalan         
+   655→
+   656→  Sesi latihan      24                Lampau, hari ini dan akan datang
+   657→
+   658→  Rekod kehadiran   Lebih 600         Campuran status dan kaedah rekod
+   659→
+   660→  Pendaftaran dan   Lebih 150         Kemajuan pelbagai peringkat
+   661→  sijil             pendaftaran, 30   
+   662→                    sijil             
+   663→  -----------------------------------------------------------------------
+   664→
+   665→Nota: semua data adalah rekaan dan tidak boleh mengandungi maklumat
+   666→peribadi sebenar kakitangan.
+   667→
+   668→11. Reka Bentuk UI/UX dan Senarai Skrin
+   669→
+   670→11.1 Prinsip reka bentuk
+   671→
+   672→-   Bersih, profesional dan mesra pengguna; warna utama biru tua dengan
+   673→    aksen hijau.
+   674→
+   675→-   Teks Bahasa Malaysia yang ringkas dan jelas; elakkan istilah
+   676→    teknikal tanpa penjelasan.
+   677→
+   678→-   Tugas kehadiran mesti boleh disiapkan dalam kurang 3 klik oleh staf
+   679→    dan kurang 1 minit oleh jurulatih.
+   680→
+   681→-   Reka bentuk mengutamakan telefon bimbit untuk imbasan QR.
+   682→
+   683→11.2 Senarai skrin
+   684→
+   685→  -----------------------------------------------------------------------
+   686→  Kumpulan      Skrin
+   687→  ------------- ---------------------------------------------------------
+   688→  Awam          Log masuk; Pengesahan sijil
+   689→
+   690→  Staf          Papan pemuka; Katalog kursus; Butiran kursus; Pemain
+   691→                pelajaran; Kuiz dan keputusan; Kursus saya; Kehadiran
+   692→                saya (imbas QR / masukkan kod); Sijil saya; Profil
+   693→
+   694→  Jurulatih     Kursus saya; Penyunting kursus/modul/pelajaran; Pembina
+   695→                kuiz; Jadual sesi; Skrin QR sesi (paparan besar untuk
+   696→                projektor); Senarai kehadiran sesi
+   697→
+   698→  HR/Pengurus   Papan pemuka pasukan; Tugaskan kursus; Lulus pembetulan
+   699→                kehadiran; Laporan
+   700→
+   701→  Admin         Pengurusan pengguna; Jabatan dan kategori; Import CSV;
+   702→                Tetapan; Log audit; Reset data dummy
+   703→  -----------------------------------------------------------------------
+   704→
+   705→12. Aliran Pengguna Utama
+   706→
+   707→12.1 Kehadiran melalui QR (staf)
+   708→
+   709→1. Jurulatih membuka sesi dan memaparkan kod QR pada skrin.
+   710→
+   711→2. Staf membuka LMS di telefon dan memilih 'Daftar Kehadiran'.
+   712→
+   713→3. Staf mengimbas QR; sistem mengesahkan sesi, masa dan pendaftaran
+   714→staf.
+   715→
+   716→4. Sistem merekod 'Hadir' atau 'Lewat' dengan cap masa dan kaedah 'QR'.
+   717→
+   718→5. Staf melihat pengesahan; jurulatih melihat senarai dikemas kini
+   719→secara langsung.
+   720→
+   721→12.2 Kehadiran manual pukal atau import (Admin/Jurulatih)
+   722→
+   723→1. Pilih sesi dan klik 'Kemasukan Pukal' atau 'Import CSV'.
+   724→
+   725→2. Untuk import: muat naik fail, sistem memadankan nombor staf dan
+   726→menunjukkan pratonton serta ralat.
+   727→
+   728→3. Betulkan ralat, sahkan, dan simpan; sistem mencatat kaedah 'import'
+   729→dan audit log.
+   730→
+   731→4. Eksport laporan kehadiran jika perlu.
+   732→
+   733→12.3 Menamatkan kursus dan mendapatkan sijil
+   734→
+   735→1. Staf mendaftar atau ditugaskan kursus.
+   736→
+   737→2. Staf menyiapkan pelajaran dan lulus kuiz.
+   738→
+   739→3. Sistem menyemak syarat kehadiran (jika ada).
+   740→
+   741→4. Sijil dijana dengan nombor pengesahan dan notifikasi dihantar.
+   742→
+   743→13. Keselamatan dan Pematuhan (PDPA 2010)
+   744→
+   745→Walaupun fasa prototaip menggunakan data dummy, reka bentuk mesti
+   746→bersedia untuk pematuhan Akta Perlindungan Data Peribadi 2010 (PDPA)
+   747→Malaysia apabila data sebenar digunakan.
+   748→
+   749→-   Pengumpulan data minimum: hanya data yang perlu (nama, nombor staf,
+   750→    jabatan, e-mel).
+   751→
+   752→-   Notis privasi dan persetujuan dipaparkan semasa log masuk pertama.
+   753→
+   754→-   Kawalan akses berasaskan peranan; staf hanya melihat data sendiri.
+   755→
+   756→-   Kata laluan produksi mesti di-hash (bcrypt/argon2) dan sesi
+   757→    menggunakan token dengan tempoh luput; tiada rahsia disimpan dalam
+   758→    kod hadapan.
+   759→
+   760→-   Perlindungan daripada XSS dan CSRF; validasi input pada semua borang
+   761→    dan import fail.
+   762→
+   763→-   Jejak audit untuk perubahan data kehadiran dan sijil.
+   764→
+   765→-   Polisi pengekalan data dan kemudahan padam/anonimkan data pengguna.
+   766→
+   767→-   Kandungan latihan AI mesti mengingatkan staf supaya tidak memasukkan
+   768→    data sulit atau peribadi ke dalam alat AI awam.
+   769→
+   770→-   Pemilik data dan penempatan pelayan produksi perlu dinilai
+   771→    (pertimbangkan hos di Malaysia atau rantau yang diluluskan).
+   772→
+   773→14. Strategi Pembangunan dengan z.ai (GLM 5.2)
+   774→
+   775→Pembangunan akan menggunakan z.ai dengan model GLM 5.2. Penjanaan kod
+   776→oleh AI berfungsi paling baik apabila tugas dipecahkan kepada langkah
+   777→kecil, jelas dan boleh disahkan. Cadangan berikut ialah amalan umum;
+   778→semak keupayaan dan had terkini model serta platform di z.ai sebelum
+   779→bermula.
+   780→
+   781→14.1 Prinsip kerja
+   782→
+   783→-   Gunakan PRD ini sebagai konteks tetap: tampal ringkasan, tindanan
+   784→    teknologi dan model data pada permulaan sesi.
+   785→
+   786→-   Bina secara berfasa (satu fitur setiap prompt), jangan minta seluruh
+   787→    sistem sekali gus.
+   788→
+   789→-   Setiap prompt menyatakan: matlamat, fail yang terlibat, kriteria
+   790→    penerimaan dan larangan (contoh: tiada pustaka tambahan).
+   791→
+   792→-   Minta kod TypeScript lengkap dan boleh dijalankan, bukan potongan
+   793→    separa.
+   794→
+   795→-   Selepas setiap fasa: jalankan aplikasi, ujian dan lint; sampaikan
+   796→    mesej ralat sebenar kepada model untuk pembetulan.
+   797→
+   798→-   Gunakan kawalan versi (Git) dan komit selepas setiap fasa yang
+   799→    berfungsi.
+   800→
+   801→-   Semak semua kod yang dijana secara manual, terutamanya logik
+   802→    kehadiran, kebenaran akses dan import fail.
+   803→
+   804→-   Jangan sertakan data peribadi sebenar atau kunci rahsia dalam
+   805→    prompt.
+   806→
+   807→14.2 Turutan prompt cadangan
+   808→
+   809→  --------------------------------------------------------------------------
+   810→  Langkah   Fokus prompt                              Hasil dijangka
+   811→  --------- ----------------------------------------- ----------------------
+   812→  1         Sediakan projek Vite + React +            Projek kosong berjalan
+   813→            TypeScript + Tailwind + shadcn/ui,        
+   814→            ESLint, struktur folder                   
+   815→
+   816→  2         Cipta skema Dexie, fail benih JSON dan    Dummy DB dan API
+   817→            handler MSW mengikut bahagian 10          tiruan berfungsi
+   818→
+   819→  3         Pengesahan, peranan, penghalaan           Log masuk dan menu
+   820→            terlindung, tata letak dan navigasi       mengikut peranan
+   821→
+   822→  4         Katalog kursus, butiran, pendaftaran      Staf boleh daftar
+   823→                                                      kursus
+   824→
+   825→  5         Pemain pelajaran, kemajuan dan kuiz       Penyiapan kursus
+   826→                                                      berfungsi
+   827→
+   828→  6         Modul kehadiran: sesi, QR, kod, pukal,    Penyelesaian kemasukan
+   829→            import/eksport CSV, audit                 manual
+   830→
+   831→  7         Sijil PDF dan halaman pengesahan          Sijil boleh dimuat
+   832→                                                      turun
+   833→
+   834→  8         Papan pemuka dan laporan                  Graf dan eksport
+   835→
+   836→  9         Pentadbiran, notifikasi, i18n BM/EN       Fungsi sokongan
+   837→                                                      lengkap
+   838→
+   839→  10        Ujian, kebolehcapaian, pengoptimuman,     Sedia untuk demo
+   840→            dokumentasi README                        
+   841→  --------------------------------------------------------------------------
+   842→
+   843→14.3 Aturan semakan kualiti
+   844→
+   845→-   Kad definisi siap: berfungsi, lulus lint dan ujian, responsif, boleh
+   846→    capai, tiada ralat konsol.
+   847→
+   848→-   Pengujian manual senario kehadiran (QR lewat, kod luput, import
+   849→    dengan ralat, duplikasi).
+   850→
+   851→-   Bandingkan hasil dengan kriteria penerimaan di bahagian 17.
+   852→
+   853→15. Fasa, Garis Masa dan Hasil Serahan
+   854→
+   855→  ----------------------------------------------------------------------------
+   856→  Fasa             Aktiviti                   Tempoh       Hasil serahan
+   857→                                              anggaran     
+   858→  ---------------- -------------------------- ------------ -------------------
+   859→  0. Persediaan    Sahkan PRD, kumpul bahan   1 minggu     PRD lulus, wayar
+   860→                   kurikulum, reka wayar                   skrin
+   861→                   (wireframe)                             
+   862→
+   863→  1. Asas          Langkah 1 hingga 3         1 minggu     Kerangka aplikasi
+   864→                   (projek, dummy DB, auth)                
+   865→
+   866→  2. Pembelajaran  Langkah 4 hingga 5         2 minggu     Kursus, pelajaran,
+   867→                                                           kuiz
+   868→
+   869→  3. Kehadiran     Langkah 6                  2 minggu     Modul kehadiran
+   870→                                                           lengkap
+   871→
+   872→  4. Pelengkap     Langkah 7 hingga 9         2 minggu     Sijil, laporan,
+   873→                                                           admin, i18n
+   874→
+   875→  5.               Langkah 10, UAT bersama    1 minggu     Versi demo siap
+   876→  Penambahbaikan   pengguna                                
+   877→  ----------------------------------------------------------------------------
+   878→
+   879→Jumlah anggaran: 9 minggu dengan seorang pembangun dibantu AI. Anggaran
+   880→ini boleh berubah mengikut ketersediaan bahan kandungan dan maklum balas
+   881→pengguna.
+   882→
+   883→15.1 Hasil serahan
+   884→
+   885→-   Kod sumber dalam repositori Git
+   886→
+   887→-   Aplikasi demo yang dihoskan dan data dummy
+   888→
+   889→-   README dan panduan pemasangan
+   890→
+   891→-   Panduan pengguna ringkas (Admin, Jurulatih, Staf)
+   892→
+   893→-   Laporan UAT dan senarai isu
+   894→
+   895→-   Pelan migrasi dari dummy DB ke pangkalan data sebenar
+   896→
+   897→16. Risiko dan Mitigasi
+   898→
+   899→  ------------------------------------------------------------------------
+   900→  Risiko                  Kesan           Mitigasi
+   901→  ----------------------- --------------- --------------------------------
+   902→  Kod AI mengandungi      Sistem tidak    Semakan manual, ujian automatik,
+   903→  ralat atau kelemahan    stabil          lint, pecahkan tugas kecil
+   904→  keselamatan                             
+   905→
+   906→  Skop meluas (feature    Lewat siap      Kawalan perubahan; MoSCoW; fokus
+   907→  creep)                                  pada modul kehadiran dahulu
+   908→
+   909→  Data dummy tidak        UAT tidak tepat Libatkan pengguna sebenar
+   910→  mewakili realiti                        menyemak data contoh dan format
+   911→                                          import
+   912→
+   913→  Peralihan ke DB sebenar Kerja semula    Lapisan service abstrak; kontrak
+   914→  sukar                                   API didokumenkan sejak awal
+   915→
+   916→  Imbasan QR dihalang     Kehadiran       Kod sesi alternatif dan
+   917→  (kamera/kebenaran)      tertunda        kemasukan pukal
+   918→
+   919→  Penyalahgunaan          Rekod tidak sah QR dinamik, tempoh luput kod,
+   920→  kehadiran (kongsi                       had satu rekod bagi setiap staf,
+   921→  QR/kod)                                 audit log
+   922→
+   923→  Pematuhan PDPA          Risiko          Data minimum, notis privasi,
+   924→                          undang-undang   kawalan akses, semakan sebelum
+   925→                                          produksi
+   926→
+   927→  Perubahan ciri/had      Gangguan jadual Simpan kod dalam Git;
+   928→  model atau platform                     dokumentasi jelas supaya boleh
+   929→  z.ai                                    disambung dengan alat lain
+   930→  ------------------------------------------------------------------------
+   931→
+   932→17. Kriteria Penerimaan
+   933→
+   934→-   Semua keperluan berkeutamaan 'M' berfungsi tanpa ralat kritikal.
+   935→
+   936→-   Staf boleh daftar kehadiran melalui QR atau kod dalam kurang 30
+   937→    saat.
+   938→
+   939→-   Jurulatih boleh menandakan kehadiran 30 staf secara pukal dan
+   940→    mengeksport laporan dalam kurang 1 minit.
+   941→
+   942→-   Import CSV mengesan baris tidak sah dan menunjukkan mesej ralat
+   943→    jelas.
+   944→
+   945→-   Setiap perubahan kehadiran direkod dalam log audit.
+   946→
+   947→-   Sijil dijana hanya apabila semua syarat dipenuhi dan boleh disahkan
+   948→    melalui halaman awam.
+   949→
+   950→-   Kawalan akses peranan berfungsi: staf tidak boleh mencapai skrin
+   951→    Admin.
+   952→
+   953→-   Aplikasi berfungsi dengan baik pada telefon, tablet dan desktop pada
+   954→    pelayar yang disenaraikan.
+   955→
+   956→-   Skor Lighthouse kebolehcapaian 90 atau lebih untuk halaman utama.
+   957→
+   958→-   Data dummy boleh direset dan disemai semula dengan satu klik.
+   959→
+   960→18. Lampiran: Templat Prompt
+   961→
+   962→18.1 Prompt konteks awal (tampal pada permulaan sesi z.ai)
+   963→
+   964→  Anda ialah jurutera perisian kanan. Bantu saya membina LMS untuk
+   965→  latihan AI kakitangan Al Amin, Malaysia.
+   966→
+   967→  Tindanan: React + TypeScript + Vite, Tailwind, shadcn/ui, React
+   968→  Router, Zustand, TanStack Query, React Hook Form + Zod, Recharts,
+   969→  Dexie + MSW untuk pangkalan data dummy.
+   970→
+   971→  Antara muka dalam Bahasa Malaysia (sokong Bahasa Inggeris melalui
+   972→  react-i18next).
+   973→
+   974→  Peranan: Admin, HR/Pengurus, Jurulatih, Staf.
+   975→
+   976→  Keutamaan: modul kehadiran (QR, kod sesi, kemasukan pukal,
+   977→  import/eksport CSV, audit) bagi menggantikan taipan manual.
+   978→
+   979→  Peraturan: kod TypeScript lengkap, struktur folder berasaskan fitur,
+   980→  tiada pustaka tambahan tanpa kebenaran, semua akses data melalui
+   981→  lapisan service, kod mesti lulus lint.
+   982→
+   983→  Saya akan berikan tugas satu demi satu. Sahkan faham, kemudian tunggu
+   984→  arahan langkah 1.
+   985→
+   986→18.2 Contoh prompt untuk modul kehadiran (langkah 6)
+   987→
+   988→  Bina fitur 'attendance' dalam src/features/attendance.
+   989→
+   990→  Skrin: (1) senarai sesi, (2) paparan QR dinamik untuk projektor, (3)
+   991→  imbasan QR dan kod sesi untuk staf, (4) kemasukan pukal dengan butang
+   992→  'Tandakan semua hadir', (5) import CSV dengan pratonton dan pengesahan
+   993→  ralat, (6) eksport CSV/PDF.
+   994→
+   995→  Peraturan: status Hadir/Lewat/Tidak Hadir/Cuti/Dikecualikan; lewat
+   996→  jika check-in melebihi lateAfterMin; satu rekod bagi setiap staf
+   997→  setiap sesi; semua perubahan direkod dalam auditLogs.
+   998→
+   999→  Kriteria penerimaan: ikut bahagian 6.5 dan 17 PRD. Sertakan ujian unit
+  1000→  untuk logik status dan pengesahan CSV.
+  1001→
+  1002→18.3 Format CSV import kehadiran (cadangan)
+  1003→
+  1004→  -------------------------------------------------------------------------
+  1005→  staffNo      sessionCode         status      checkIn     remarks
+  1006→  ------------ ------------------- ----------- ----------- ----------------
+  1007→  A1023        AI101-2026-11-20    Hadir       09:02       
+  1008→
+  1009→  A1044        AI101-2026-11-20    Lewat       09:25       Trafik
+  1010→
+  1011→  A1051        AI101-2026-11-20    Cuti                    Cuti tahunan
+  1012→  -------------------------------------------------------------------------
+  1013→
+  1014→- Tamat dokumen -
+  1015→
