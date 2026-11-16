@@ -4,6 +4,10 @@ import { cookies } from 'next/headers'
 function isSecure(req: NextRequest): boolean {
   const forwardedProto = req.headers.get('x-forwarded-proto')
   if (forwardedProto === 'https') return true
+  const origin = req.headers.get('origin') || ''
+  if (origin.startsWith('https://')) return true
+  const referer = req.headers.get('referer') || ''
+  if (referer.startsWith('https://')) return true
   return req.nextUrl.protocol === 'https:'
 }
 

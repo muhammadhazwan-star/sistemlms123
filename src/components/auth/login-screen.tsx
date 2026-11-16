@@ -30,10 +30,18 @@ export function LoginScreen() {
     setLoading(true)
     try {
       const { user } = await api.auth.login(loginEmail, loginPassword)
+      if (!user) { toast.error('Respons pelayan tidak sah'); return }
       setUser(user)
       toast.success(`Selamat datang, ${user.name}`)
     } catch (err: any) {
-      toast.error(err.message || 'Log masuk gagal')
+      const msg = err?.message || 'Log masuk gagal'
+      if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+        toast.error('Tidak dapat hubungi pelayan. Semak sambungan rangkaian.')
+      } else if (msg.includes('500') || msg.includes('Ralat 500')) {
+        toast.error('Ralat pelayan (500). Pangkalan data mungkin belum disediakan. Jalankan: bun run db:push && bun run prisma/seed/index.ts')
+      } else {
+        toast.error(msg)
+      }
     } finally { setLoading(false) }
   }
 
