@@ -2,20 +2,38 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { cookies } from 'next/headers'
 
-// Detect if request came over HTTPS for proper cookie flags
-// Check multiple sources: X-Forwarded-Proto, Origin header, and request protocol
 function isSecure(req: NextRequest): boolean {
-  // 1. Standard proxy header
   const forwardedProto = req.headers.get('x-forwarded-proto')
   if (forwardedProto === 'https') return true
-  // 2. Origin header from browser (reliable through Caddy gateway)
   const origin = req.headers.get('origin') || ''
   if (origin.startsWith('https://')) return true
-  // 3. Referer header
   const referer = req.headers.get('referer') || ''
   if (referer.startsWith('https://')) return true
-  // 4. Direct request protocol
   return req.nextUrl.protocol === 'https:'
+}
+
+// Fallback: query user via Supabase REST API (HTTPS) if Prisma fails (IPv6 issue)
+async function findUserViaRestApi(email: string): Promise<any | null> {
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!supabaseUrl || !supabaseKey) return null
+
+  try {
+    const res = await fetch(
+      `${supabaseUrl}/rest/v1/User?email=eq.${encodeURIComponent(email.toLowerCase())}&select=*&limit=1`,
+      {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+      }
+    )
+    if (!res.ok) return null
+    const data = await res.json()
+    return Array.isArray(data) && data.length > 0 ? data[0] : null
+  } catch {
+    return null
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -34,10 +52,35 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'E-mel dan kata laluan diperlukan' }, { status: 400 })
     }
 
-    const user = await db.user.findFirst({
-      where: { email: { equals: email.toLowerCase() } },
-      include: { department: true }
-    })
+    // Try Prisma first
+    let user: any = null
+    try {
+      user = await db.user.findFirst({
+        where: { email: { equals: email.toLowerCase() } },
+        include: { department: true }
+      })
+    } catch (prismaErr) {
+      // Prisma failed (likely IPv6/connection issue) — try Supabase REST API fallback
+      console.error('Prisma login failed, trying REST API fallback:', (prismaErr as Error).message?.slice(0, 100))
+      user = await findUserViaRestApi(email)
+      if (user) {
+        // Fetch department via REST API too
+        const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+        if (user.departmentId && supabaseUrl && supabaseKey) {
+          try {
+            const deptRes = await fetch(
+              `${supabaseUrl}/rest/v1/Department?id=eq.${user.departmentId}&select=*&limit=1`,
+              { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } }
+            )
+            if (deptRes.ok) {
+              const deptData = await deptRes.json()
+              user.department = deptData?.[0] || null
+            }
+          } catch {}
+        }
+      }
+    }
 
     if (!user || user.passwordHash !== password) {
       return NextResponse.json({ error: 'E-mel atau kata laluan tidak sah' }, { status: 401 })
@@ -67,9 +110,7 @@ export async function POST(req: NextRequest) {
       await db.auditLog.create({
         data: { userId: user.id, action: 'LOGIN', entity: 'auth', entityId: user.id, after: 'User logged in' }
       })
-    } catch {
-      // Audit log failure should not block login
-    }
+    } catch {}
 
     return NextResponse.json({ user: safe })
   } catch (err: any) {
